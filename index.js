@@ -8,7 +8,7 @@ const error = (res) => {
 
 const requestListener = async (req, res) => {
     res.setHeader("Context-Type", "text/html")
-    if (/^\/ig\/reel\//.test(req.url)) {
+    if (/^\/reel\//.test(req.url)) {
         const url = req.url.match(/^\/ig\/(.+?)$/)
 
         try {

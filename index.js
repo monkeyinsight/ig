@@ -15,7 +15,7 @@ const requestListener = async (req, res) => {
             const data = await instagramDl("https://www.instagram.com/reel/" + url[1])
             if (data) {
                 res.writeHead(200)
-                res.end(`<!doctype html><html><head><style>html,body,video{margin:0;padding:0;height:100%;max-height:100%}</style></head><body><video src="${data[0].download_link}" preload="auto" autoplay="true" controls/></video></body></html>`)
+                res.end(`<!doctype html><html><head><style>html,body,video{background:#222;margin:0;padding:0;height:100%;max-height:100%}</style></head><body><video src="${data[0].download_link}" preload="auto" autoplay="true" controls/></video></body></html>`)
             } else {
                 return error(res)
             }

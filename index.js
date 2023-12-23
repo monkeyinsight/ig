@@ -9,10 +9,10 @@ const error = (res) => {
 const requestListener = async (req, res) => {
     res.setHeader("Context-Type", "text/html")
     if (/^\/reel\//.test(req.url)) {
-        const url = req.url.match(/^\/ig\/(.+?)$/)
+        const url = req.url.match(/^\/reel\/(.+?)$/)
 
         try {
-            const data = await instagramDl("https://www.instagram.com/" + url[1])
+            const data = await instagramDl("https://www.instagram.com/reel/" + url[1])
             if (data) {
                 res.writeHead(200)
                 res.end(`<!doctype html><html><head><style>html,body,video{height:100%;max-height:100%}</style></head><body><video src="${data[0].download_link}" preload="auto" autoplay="true" controls/></video></body></html>`)

@@ -28,8 +28,8 @@ async function scrapePost(urlOrShortcode) {
   const url = "https://www.instagram.com/graphql/query"
 
   try {
-    const temp = await axios.get("https://www.instagram.com/p/${shortcode}");
     const result = await axios.post(url, body, {
+      withCredentials: true,
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       }
@@ -44,7 +44,7 @@ async function scrapePost(urlOrShortcode) {
 const requestListener = async (req, res) => {
   res.setHeader("Context-Type", "text/html")
   if (/^\/(reel|p)\//.test(req.url)) {
-    const url = req.url.match(/^\/(reel|p)\/(.+?)\/$/)
+    const url = req.url.match(/^\/(reel|p)\/(.+?)\//)
 
     try {
       const data = await scrapePost("https://www.instagram.com/p/" + url[2])

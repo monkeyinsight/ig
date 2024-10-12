@@ -28,6 +28,7 @@ async function scrapePost(urlOrShortcode) {
   const url = "https://www.instagram.com/graphql/query"
 
   try {
+    const temp = await axios.get("https://www.instagram.com/p/${shortcode}");
     const result = await axios.post(url, body, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"

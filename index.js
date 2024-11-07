@@ -59,7 +59,7 @@ const requestListener = async (req, res) => {
 
       if (data) {
         res.writeHead(200)
-        res.end(`<!doctype html><html><head><style>html,body,video{text-align:center;background:#222;margin:0;padding:0;height:100%;max-height:100%}</style></head><body>${data.is_video?`<video src="${data.video_url}" preload="auto" autoplay="true" controls/></video>`:images.map(i => `<img src="${i}"/>`)}</body></html>`)
+        res.end(`<!doctype html><html><head><style>html,body,video{text-align:center;background:#222;margin:0;padding:0;height:100%;max-height:100%}</style></head><body>${data.is_video?`<video src="${data.video_url}" preload="auto" autoplay="true" controls/></video>`:images.map(i => `<img src="/i/${i.replace('https://', '')}"/>`)}</body></html>`)
       } else {
         return error(res)
       }
@@ -67,11 +67,19 @@ const requestListener = async (req, res) => {
       res.writeHead(500)
       res.end(JSON.stringify(e))
     }
-} else {
-  return error(res)
-}
+  } else if (/^\/i\//.test(req.url)) {
+    const url = req.url.match(/^\/i\/(.+?)$/)
+
+    const response = await fetch('https://' + url[1]);
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+    
+    res.write(buffer, 'binary')
+    res.end(null, 'binary')
+  } else {
+    return error(res)
+  }
 }
 
 const server = http.createServer(requestListener)
-server.listen(8008, "127.0.0.1", () => {
-});
+server.listen(8008, "127.0.0.1", () => {});
